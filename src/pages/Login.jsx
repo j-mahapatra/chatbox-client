@@ -117,7 +117,7 @@ const Login = () => {
             setIsSnackbarOpen(false);
           }}
         >
-          <Alert severity='success'>{data?.data?.message}</Alert>
+          <Alert severity='success'>{data?.data?.message || 'Success'}</Alert>
         </Snackbar>
       )}
       {isError && (
@@ -129,7 +129,9 @@ const Login = () => {
             setIsSnackbarOpen(false);
           }}
         >
-          <Alert severity='error'>{error?.response?.data?.message}</Alert>
+          <Alert severity='error'>
+            {error?.response?.data?.message || 'Error'}
+          </Alert>
         </Snackbar>
       )}
     </Container>
