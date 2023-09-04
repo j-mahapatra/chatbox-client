@@ -1,6 +1,6 @@
-import logoDark from '../assets/logo.png';
-import logoLight from '../assets/logo-black.png';
-import { ThemeContext } from '../contexts/themeContext';
+import logoDark from '../../assets/logo.png';
+import logoLight from '../../assets/logo-black.png';
+import { ThemeContext } from '../../contexts/themeContext';
 import { useContext, useState } from 'react';
 
 import { useTheme } from '@mui/material/styles';
