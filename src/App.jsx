@@ -3,18 +3,21 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import { ThemeContextProvider } from './contexts/themeContext';
-import Navbar from './components/Navbar';
+import UserContextProvider from './contexts/userContext';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
   return (
     <>
       <ThemeContextProvider>
-        <Navbar />
-        <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
-        </Routes>
+        <UserContextProvider>
+          <Navbar />
+          <Routes>
+            <Route exact path='/' element={<Home />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+          </Routes>
+        </UserContextProvider>
       </ThemeContextProvider>
     </>
   );
