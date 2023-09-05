@@ -55,7 +55,7 @@ const Home = () => {
           display: 'flex',
           height: '92vh',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
         }}
       >
         <Paper
