@@ -120,7 +120,6 @@ const Signup = () => {
             label='Email Address'
             name='email'
             autoComplete='email'
-            autoFocus
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
