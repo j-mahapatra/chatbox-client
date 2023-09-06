@@ -13,6 +13,7 @@ import axios from 'axios';
 import CreateChatModal from './CreateChatModal/CreateChatModal';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { GlobalContext } from '../../contexts/globalContext';
+import { UserContext } from '../../contexts/userContext';
 
 const Chats = () => {
   const { selectedChat, setSelectedChat, setIsChatDrawerOpen } =
@@ -20,6 +21,7 @@ const Chats = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const { user } = useContext(UserContext);
 
   const {
     isError,
@@ -45,7 +47,7 @@ const Chats = () => {
     setIsCreateModalOpen(true);
   };
 
-  if (isError) {
+  if (user && isError) {
     return (
       <Paper
         elevation={5}

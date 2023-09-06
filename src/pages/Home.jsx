@@ -17,10 +17,10 @@ import { GlobalContext } from '../contexts/globalContext';
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
 
 const Home = () => {
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const { isChatDrawerOpen, setIsChatDrawerOpen } = useContext(GlobalContext);
 
-  const { isError, data, isSuccess } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: ['verify-login'],
     queryFn: async () => {
       return await axios.get(
@@ -34,7 +34,13 @@ const Home = () => {
       );
     },
     retry: false,
+    cacheTime: 0,
+    refetchOnWindowFocus: false,
   });
+
+  const theme = useTheme();
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     if (isSuccess) {
@@ -42,11 +48,7 @@ const Home = () => {
     }
   }, [isSuccess]);
 
-  const theme = useTheme();
-
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-  if (isError) {
+  if (!user) {
     return (
       <Container
         fixed
