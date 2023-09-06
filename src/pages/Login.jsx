@@ -38,18 +38,23 @@ const Login = () => {
     },
     enabled: false,
     retry: false,
+    cacheTime: 0,
   });
 
   useEffect(() => {
-    if (isSuccess || isError) {
-      setIsSnackbarOpen(true);
-    }
     if (isSuccess) {
+      setIsSnackbarOpen(true);
       setTimeout(() => {
         navigate('/');
       }, 1000);
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      setIsSnackbarOpen(true);
+    }
+  }, [isError]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
