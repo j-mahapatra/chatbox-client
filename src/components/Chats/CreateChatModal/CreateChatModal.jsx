@@ -20,6 +20,7 @@ const CreateChatModal = ({
   isCreateModalOpen,
   setIsCreateModalOpen,
   refetchChats,
+  setIsSnackbarOpen,
 }) => {
   const [newChatName, setNewChatName] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -56,6 +57,7 @@ const CreateChatModal = ({
       );
     },
     onSuccess: () => {
+      setIsSnackbarOpen(true);
       queryClient.refetchQueries({ queryKey: ['get-chat'] });
       refetchChats();
     },
@@ -76,6 +78,9 @@ const CreateChatModal = ({
   };
 
   const handleCreateChat = () => {
+    if (!newChatName) {
+      return;
+    }
     setIsCreateModalOpen(false);
     mutation.mutate({ name: newChatName, members: selectedUsers });
   };
@@ -84,12 +89,12 @@ const CreateChatModal = ({
     <>
       <Dialog
         onClose={handleClose}
-        aria-labelledby='customized-dialog-title'
+        aria-labelledby='create-chat-title'
         open={isCreateModalOpen}
         maxWidth='xl'
         fullWidth
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id='customized-dialog-title'>
+        <DialogTitle sx={{ m: 0, p: 2 }} id='create-chat-title'>
           Create Chat
         </DialogTitle>
         <IconButton

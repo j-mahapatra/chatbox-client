@@ -3,6 +3,8 @@ import {
   Button,
   Fab,
   Paper,
+  Snackbar,
+  Alert,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
@@ -22,6 +24,7 @@ const Chats = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { user } = useContext(UserContext);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
   const {
     isError,
@@ -142,8 +145,20 @@ const Chats = () => {
           isCreateModalOpen={isCreateModalOpen}
           setIsCreateModalOpen={setIsCreateModalOpen}
           refetchChats={refetchChats}
+          setIsSnackbarOpen={setIsSnackbarOpen}
         />
       )}
+
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        open={isSnackbarOpen}
+        autoHideDuration={5000}
+        onClose={() => {
+          setIsSnackbarOpen(false);
+        }}
+      >
+        <Alert severity='success'>Chat created successfully!</Alert>
+      </Snackbar>
     </>
   );
 };

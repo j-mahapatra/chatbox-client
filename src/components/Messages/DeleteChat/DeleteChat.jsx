@@ -1,5 +1,7 @@
 import {
+  Backdrop,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -19,6 +21,7 @@ const DeleteChat = () => {
   const { user } = useContext(UserContext);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const queryClient = useQueryClient();
+  const [isBackdropOpen, setIsBackdropOpen] = useState(false);
 
   const { data: chatData } = useQuery({
     queryKey: ['get-chat-by-id', { selectedChat }],
@@ -43,6 +46,7 @@ const DeleteChat = () => {
 
   const mutation = useMutation({
     mutationFn: () => {
+      setIsBackdropOpen(true);
       return axios.delete(
         `${import.meta.env.VITE_SERVER_URL}/api/chat/${selectedChat}`,
         {
@@ -54,6 +58,7 @@ const DeleteChat = () => {
       );
     },
     onSuccess: () => {
+      setIsBackdropOpen(false);
       queryClient.refetchQueries({ queryKey: ['get-chat'] });
     },
   });
@@ -70,6 +75,19 @@ const DeleteChat = () => {
     mutation.mutate({});
     setIsConfirmDialogOpen(false);
   };
+
+  if (isBackdropOpen) {
+    return (
+      <>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isBackdropOpen}
+        >
+          <CircularProgress color='inherit' />
+        </Backdrop>
+      </>
+    );
+  }
 
   return (
     chatData?.data?.admin?._id === user._id && (
