@@ -118,9 +118,8 @@ const Messages = () => {
       content: currentMessage,
     };
     setAllMessages((prev) => [...prev, message]);
-    mutation.mutate({ content: currentMessage, chat: selectedChat });
-
     socket.emit('client-event', selectedChat, message);
+    mutation.mutate({ content: currentMessage, chat: selectedChat });
     setCurrentMessage('');
   };
 
