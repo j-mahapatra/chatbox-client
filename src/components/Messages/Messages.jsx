@@ -108,6 +108,9 @@ const Messages = () => {
   }, [isSuccess]);
 
   const handleSendMessageMouse = () => {
+    if (!currentMessage) {
+      return;
+    }
     const message = {
       sender: user,
       content: currentMessage,
