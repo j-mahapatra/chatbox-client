@@ -31,7 +31,7 @@ const Messages = () => {
 
   useEffect(() => {
     if (messageContainer?.current?.scrollTop === 0) {
-      messageContainer?.current?.lastChild.scrollIntoView({
+      messageContainer?.current?.lastChild?.scrollIntoView({
         behavior: 'smooth',
       });
     }
