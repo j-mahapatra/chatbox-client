@@ -18,6 +18,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { UserContext } from '../../contexts/userContext';
 import { GlobalContext } from '../../contexts/globalContext';
 import { socket } from '../../config/socket';
+import DeleteChat from './DeleteChat/DeleteChat';
 
 const Messages = () => {
   const { selectedChat } = useContext(GlobalContext);
@@ -186,6 +187,7 @@ const Messages = () => {
       >
         Messages
       </Paper>
+      <DeleteChat />
       <Box
         component='div'
         sx={{
