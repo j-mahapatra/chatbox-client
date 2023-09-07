@@ -63,6 +63,10 @@ const DeleteChat = () => {
   };
 
   const handleClose = () => {
+    setIsConfirmDialogOpen(false);
+  };
+
+  const handleDelete = () => {
     mutation.mutate({});
     setIsConfirmDialogOpen(false);
   };
@@ -88,7 +92,7 @@ const DeleteChat = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} autoFocus>
+            <Button onClick={handleDelete} autoFocus>
               Yes
             </Button>
             <Button autoFocus onClick={handleClose}>
