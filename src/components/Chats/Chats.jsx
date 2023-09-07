@@ -66,7 +66,7 @@ const Chats = () => {
       <Box
         sx={{
           display: 'flex',
-          width: isSmallScreen ? '100%' : '25%',
+          width: isSmallScreen ? '100%' : '60%',
           height: isSmallScreen ? '100vh' : '100%',
           flexDirection: 'column',
           position: 'relative',
