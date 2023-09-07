@@ -29,6 +29,14 @@ const Messages = () => {
   const { user } = useContext(UserContext);
 
   useEffect(() => {
+    if (messageContainer?.current?.scrollTop === 0) {
+      messageContainer?.current?.lastChild.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  }, [messageContainer, allMessages]);
+
+  useEffect(() => {
     if (selectedChat) {
       socket.emit('join-room', selectedChat);
     }
