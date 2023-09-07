@@ -9,8 +9,8 @@ import {
   Avatar,
 } from '@mui/material';
 import logo from '../assets/logo-icon.png';
-import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { LoadingButton } from '@mui/lab';
 import { useNavigate } from 'react-router-dom';
@@ -22,47 +22,50 @@ const Signup = () => {
   const [password, setPassword] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
 
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const [isSuccessSnackbarOpen, setSuccessIsSnackbarOpen] = useState(false);
+  const [isErrorSnackbarOpen, setErrorIsSnackbarOpen] = useState(false);
   const [pictureUploadFailed, setPictureUploadFailed] = useState(false);
 
   const navigate = useNavigate();
 
-  const { isFetching, isError, data, error, isSuccess, refetch } = useQuery({
-    queryKey: ['signup'],
-    queryFn: async () => {
-      return await axios.post(
+  const mutation = useMutation({
+    mutationFn: (user) => {
+      setLoading(true);
+      return axios.put(
         `${import.meta.env.VITE_SERVER_URL}/api/user/signup`,
-        {
-          username,
-          email,
-          password,
-          profilePicture,
-        },
+        user,
         {
           headers: {
             'Content-Type': 'application/json',
           },
+          withCredentials: true,
         }
       );
     },
-    enabled: false,
-    retry: false,
-  });
-
-  useEffect(() => {
-    if (isSuccess || isError) {
-      setIsSnackbarOpen(true);
-    }
-    if (isSuccess) {
+    onSuccess: () => {
+      setLoading(false);
+      setSuccessIsSnackbarOpen(true);
       setTimeout(() => {
         navigate('/login');
       }, 1000);
-    }
-  }, [isSuccess, isError]);
+    },
+    onError: (error) => {
+      setLoading(false);
+      setError(error);
+      setErrorIsSnackbarOpen(true);
+    },
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    refetch();
+  const handleSubmit = () => {
+    mutation.mutate({
+      username: username,
+      email: email,
+      password: password,
+      profilePicture: profilePicture,
+    });
   };
 
   const toBase64 = (file) =>
@@ -100,7 +103,7 @@ const Signup = () => {
         <Typography component='h1' variant='h5'>
           Sign Up
         </Typography>
-        <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box noValidate sx={{ mt: 1 }}>
           <TextField
             margin='normal'
             required
@@ -165,35 +168,35 @@ const Signup = () => {
             </Avatar>
           </label>
           <LoadingButton
-            type='submit'
             fullWidth
             variant='contained'
             sx={{ mt: 3, mb: 2 }}
-            loading={isFetching}
+            loading={loading}
+            onClick={handleSubmit}
           >
             Signup
           </LoadingButton>
         </Box>
       </Box>
-      {isSuccess && (
+      {isSuccessSnackbarOpen && (
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          open={isSnackbarOpen}
+          open={isSuccessSnackbarOpen}
           autoHideDuration={5000}
           onClose={() => {
-            setIsSnackbarOpen(false);
+            setSuccessIsSnackbarOpen(false);
           }}
         >
-          <Alert severity='success'>{data?.data?.message || 'Success'}</Alert>
+          <Alert severity='success'>Registration successful!</Alert>
         </Snackbar>
       )}
-      {isError && (
+      {isErrorSnackbarOpen && (
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          open={isSnackbarOpen}
+          open={isErrorSnackbarOpen}
           autoHideDuration={5000}
           onClose={() => {
-            setIsSnackbarOpen(false);
+            setErrorIsSnackbarOpen(false);
           }}
         >
           <Alert severity='error'>
@@ -204,10 +207,10 @@ const Signup = () => {
       {pictureUploadFailed && (
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          open={isSnackbarOpen}
+          open={isErrorSnackbarOpen}
           autoHideDuration={5000}
           onClose={() => {
-            setIsSnackbarOpen(false);
+            setErrorIsSnackbarOpen(false);
           }}
         >
           <Alert severity='error'>Profile picture upload failed!</Alert>
