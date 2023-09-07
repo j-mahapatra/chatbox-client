@@ -12,13 +12,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { GlobalContext } from '../../../contexts/globalContext';
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { UserContext } from '../../../contexts/userContext';
 
 const DeleteChat = () => {
   const { selectedChat } = useContext(GlobalContext);
+  const { user } = useContext(UserContext);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const queryClient = useQueryClient();
 
-  const { isSuccess } = useQuery({
+  const { data: chatData } = useQuery({
     queryKey: ['get-chat-by-id', { selectedChat }],
     queryFn: async () => {
       if (selectedChat) {
@@ -70,7 +72,7 @@ const DeleteChat = () => {
   };
 
   return (
-    isSuccess && (
+    chatData?.data?.admin?._id === user._id && (
       <>
         <IconButton
           onClick={handleOpen}
