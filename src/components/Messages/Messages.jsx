@@ -148,7 +148,13 @@ const Messages = () => {
 
   if (!selectedChat) {
     return (
-      <Box sx={{ display: 'grid', placeItems: 'center', width: '100%' }}>
+      <Box
+        sx={{
+          display: 'grid',
+          placeItems: 'center',
+          width: isSmallScreen ? '100%' : '75%',
+        }}
+      >
         <Paper elevation={10} sx={{ padding: 1 }}>
           Select a chat to view messages!
         </Paper>
@@ -158,7 +164,13 @@ const Messages = () => {
 
   if (isLoading || isFetching) {
     return (
-      <Box sx={{ display: 'grid', placeItems: 'center', width: '100%' }}>
+      <Box
+        sx={{
+          display: 'grid',
+          placeItems: 'center',
+          width: isSmallScreen ? '100%' : '75%',
+        }}
+      >
         <CircularProgress />
       </Box>
     );
