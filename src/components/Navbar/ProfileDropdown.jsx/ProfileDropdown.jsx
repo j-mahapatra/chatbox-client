@@ -6,6 +6,7 @@ import {
   MenuItem,
   Modal,
   Typography,
+  styled,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
@@ -16,6 +17,14 @@ import axios from 'axios';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const queryClient = new QueryClient();
+
+const StyledBox = styled(Box)({
+  display: 'flex',
+  flexWrap: 'wrap',
+  width: '100%',
+  justifyContent: 'center',
+  padding: 1,
+});
 
 const ProfileDropdown = () => {
   const { user, setUser } = useContext(UserContext);
@@ -99,11 +108,10 @@ const ProfileDropdown = () => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: isSmallScreen ? '90%' : '30%',
+            width: isSmallScreen ? '90%' : '50%',
             bgcolor: 'background.paper',
-            border: '2px solid #000',
-            boxShadow: 24,
-            p: 4,
+            boxShadow: 10,
+            p: 5,
           }}
         >
           <Box
@@ -137,14 +145,7 @@ const ProfileDropdown = () => {
               </Avatar>
             )}
           </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              width: '100%',
-              justifyContent: 'space-between',
-              padding: 1,
-            }}
-          >
+          <StyledBox>
             <Typography
               variant='h6'
               component='h2'
@@ -158,19 +159,12 @@ const ProfileDropdown = () => {
               variant='h6'
               component='h2'
               textAlign='center'
-              sx={{ padding: 1, flexGrow: 1 }}
+              sx={{ padding: 1 }}
             >
               {user?.username}
             </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              width: '100%',
-              justifyContent: 'space-between',
-              padding: 1,
-            }}
-          >
+          </StyledBox>
+          <StyledBox>
             <Typography
               variant='h6'
               component='h2'
@@ -184,11 +178,11 @@ const ProfileDropdown = () => {
               variant='h6'
               component='h2'
               textAlign='center'
-              sx={{ padding: 1, flexGrow: 1 }}
+              sx={{ padding: 1 }}
             >
               {user?.email}
             </Typography>
-          </Box>
+          </StyledBox>
         </Box>
       </Modal>
     </Box>
