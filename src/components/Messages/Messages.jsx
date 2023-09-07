@@ -17,6 +17,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import { UserContext } from '../../contexts/userContext';
 import { GlobalContext } from '../../contexts/globalContext';
+import { socket } from '../../config/socket';
 
 const Messages = () => {
   const { selectedChat } = useContext(GlobalContext);
@@ -26,6 +27,28 @@ const Messages = () => {
   const [allMessages, setAllMessages] = useState([]);
   const messageContainer = useRef();
   const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    if (selectedChat) {
+      socket.emit('join-room', selectedChat);
+    }
+
+    return () => {
+      if (selectedChat) {
+        socket.emit('leave-room', selectedChat);
+      }
+    };
+  }, [selectedChat]);
+
+  useEffect(() => {
+    socket.on('server-event', (message) => {
+      setAllMessages((prev) => [...prev, message]);
+    });
+
+    return () => {
+      socket.off('server-event');
+    };
+  }, []);
 
   const {
     isLoading,
@@ -77,12 +100,15 @@ const Messages = () => {
   }, [isSuccess]);
 
   const handleSendMessageMouse = () => {
-    setAllMessages((prev) => [
-      ...prev,
-      { sender: user, content: currentMessage },
-    ]);
-    setCurrentMessage('');
+    const message = {
+      sender: user,
+      content: currentMessage,
+    };
+    setAllMessages((prev) => [...prev, message]);
     mutation.mutate({ content: currentMessage, chat: selectedChat });
+
+    socket.emit('client-event', selectedChat, message);
+    setCurrentMessage('');
   };
 
   const handleSendMessageKeyboard = (event) => {
