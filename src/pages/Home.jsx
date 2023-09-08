@@ -105,6 +105,12 @@ const Home = () => {
             anchor='left'
             open={isChatDrawerOpen}
             onClose={() => setIsChatDrawerOpen(false)}
+            sx={{
+              '& .MuiDrawer-paper': {
+                boxSizing: 'border-box',
+                width: '70%',
+              },
+            }}
           >
             <Chats />
           </Drawer>

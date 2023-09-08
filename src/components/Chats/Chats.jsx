@@ -133,7 +133,7 @@ const Chats = () => {
           size='small'
           color='primary'
           aria-label='add'
-          sx={{ position: 'absolute', bottom: 0, right: '40%' }}
+          sx={{ position: 'absolute', bottom: 10, right: '40%' }}
           onClick={handleOpen}
         >
           <AddIcon />
