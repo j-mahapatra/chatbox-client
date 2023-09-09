@@ -5,6 +5,7 @@ import {
   Container,
   Snackbar,
   Alert,
+  Button,
 } from '@mui/material';
 import logo from '../assets/logo-icon.png';
 import { useEffect, useState } from 'react';
@@ -14,8 +15,8 @@ import { LoadingButton } from '@mui/lab';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -61,6 +62,11 @@ const Login = () => {
     refetch();
   };
 
+  const fillGuestCredentials = () => {
+    setEmail('guest@email.com');
+    setPassword('12345');
+  };
+
   return (
     <Container component='main' maxWidth='xs'>
       <Box
@@ -87,6 +93,7 @@ const Login = () => {
             id='email'
             label='Email Address'
             name='email'
+            value={email}
             autoComplete='email'
             autoFocus
             onChange={(e) => setEmail(e.target.value)}
@@ -99,6 +106,7 @@ const Login = () => {
             label='Password'
             type='password'
             id='password'
+            value={password}
             autoComplete='current-password'
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -106,11 +114,19 @@ const Login = () => {
             type='submit'
             fullWidth
             variant='contained'
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 4, mb: 1 }}
             loading={isFetching}
           >
             Login
           </LoadingButton>
+          <Button
+            fullWidth
+            variant='outlined'
+            sx={{ mt: 1, mb: 2 }}
+            onClick={fillGuestCredentials}
+          >
+            Get Guest Credentials
+          </Button>
         </Box>
       </Box>
       {isSuccess && (
