@@ -8,6 +8,7 @@ import {
   Input,
   InputAdornment,
   Paper,
+  Typography,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
@@ -230,7 +231,7 @@ const Messages = () => {
                 sx={{
                   display: 'flex',
                   p: 1,
-                  width: 'max-content',
+                  width: '100%',
                   my: 1,
                   alignItems: 'center',
                   gap: 1,
@@ -253,7 +254,7 @@ const Messages = () => {
                   </Avatar>
                 )}
 
-                {message.content}
+                <Typography component='p'>{message.content}</Typography>
               </Paper>
             </Fade>
           ))}
