@@ -231,7 +231,7 @@ const Messages = () => {
                 sx={{
                   display: 'flex',
                   p: 1,
-                  width: '100%',
+                  width: 'auto',
                   my: 1,
                   alignItems: 'center',
                   gap: 1,
