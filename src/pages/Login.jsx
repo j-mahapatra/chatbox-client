@@ -64,7 +64,7 @@ const Login = () => {
 
   const fillGuestCredentials = () => {
     setEmail('guest@email.com');
-    setPassword('12345');
+    setPassword('admin');
   };
 
   return (
